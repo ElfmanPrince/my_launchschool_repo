@@ -1,5 +1,8 @@
 const readline = require('readline-sync');
 const VALID_CHOICES = ['rock', 'paper', 'scissors', 'spock', 'lizard'];
+let computerWins = 0;
+let playerWins = 0;
+let isWinner = false;
 
 function prompt(msg) {
   console.log(`=> ${msg}`);
@@ -13,11 +16,32 @@ function displayWinner(choice, computerChoice) {
       (choice === 'scissors' && (computerChoice === 'paper' || computerChoice === 'lizard')) ||
       (choice === 'lizard' && (computerChoice === 'paper' || computerChoice === 'spock')) ||
       (choice === 'spock' && (computerChoice === 'scissors' || computerChoice === 'rock'))) {
-    prompt("You win!");
+    // prompt("You win!");
+    win('player');
   } else if (choice === computerChoice) {
     prompt("It's a tie");
   } else {
-    prompt("Computer win");
+    // prompt("Computer win");
+    win('computer');
+  }
+  checkForGrandWinner();
+}
+
+function win(winner) {
+  if (winner === 'computer') {
+    computerWins++;
+  } else {
+    playerWins++;
+  }
+}
+
+function checkForGrandWinner() {
+  if (computerWins === 3) {
+    prompt("Computer wins");
+    isWinner = true;
+  } else if (playerWins === 3) {
+    prompt("Player wins");
+    isWinner = true;
   }
 }
 
@@ -36,7 +60,7 @@ while (true) {
 
   while (!['r', 'rock', 'p', 'paper', 's', 'scissors', 'sp', 'spock', 'l', 'lizard'].includes(choice)) {
     prompt("That's not a valid choice");
-    choice = readline.question().toLocaleLowerCase();
+    choice = readline.question().toLocaleLowerCase;
   }
 
   let randomIndex = Math.floor(Math.random() * (VALID_CHOICES.length));
@@ -62,14 +86,7 @@ while (true) {
 
   displayWinner(choice, computerChoice);
 
-  prompt('Do you want to play again (y/n)?');
-  let answer = readline.question().toLocaleLowerCase();
-  while (answer[0] !== 'n' && answer[0] !== 'y') {
-    prompt("Please enter 'y' or 'n'.");
-    answer = readline.question().toLocaleLowerCase();
-  }
-
-  if (answer[0] === 'n') {
+  if (isWinner) {
     break;
   }
 }
