@@ -88,10 +88,9 @@ function playAgain(answer) {
 }
 
 while (true) {
-  prompt('Welcome to the game');
+  prompt('Welcome to the game!');
   prompt(`Please, choose one of the following: 
-  ${charsToChooseFrom(VALID_CHOICES)}
-  `);
+  ${charsToChooseFrom(VALID_CHOICES)}`);
   let choice = readline.question().trim().toLowerCase();
 
   while (!['r', 'rock', 'p', 'paper', 's', 'scissors', 'sp', 'spock', 'l', 'lizard'].includes(choice)) {
