@@ -8,59 +8,93 @@ function prompt(msg) {
   console.log(`=> ${msg}`);
 }
 
+function keepingScore(playerWins, computerWins) {
+  console.log(`
+   Player score: ${playerWins}
+   Computer score: ${computerWins}
+  `)
+}
+
+function charsToChooseFrom(arr, delimiter = ', ', word = 'or ') {
+  return arr.slice(0, arr.length - 1).map(function (word, index, arr){
+    if(arr[index] === 'spock') return 'sp for spock'
+    return `${word[0]} for ${arr[index]}`
+  }).join(delimiter) + `${delimiter}${word}${arr[arr.length - 1][0]} for ${arr.slice(-1)}`
+}
+
+function playerIsRoundWinner(choice, computerChoice) {
+  return (choice === 'rock' && (computerChoice === 'scissors' || computerChoice === 'lizard')) ||
+  (choice === 'paper' && (computerChoice === 'rock' || computerChoice === 'spock')) ||
+  (choice === 'scissors' && (computerChoice === 'paper' || computerChoice === 'lizard')) ||
+  (choice === 'lizard' && (computerChoice === 'paper' || computerChoice === 'spock')) ||
+  (choice === 'spock' && (computerChoice === 'scissors' || computerChoice === 'rock'))
+}
+
 function displayWinner(choice, computerChoice) {
+
+  console.clear()
+
   prompt(`You chose ${choice}, computer chose ${computerChoice}`);
 
-  if ((choice === 'rock' && (computerChoice === 'scissors' || computerChoice === 'lizard')) ||
-      (choice === 'paper' && (computerChoice === 'rock' || computerChoice === 'spock')) ||
-      (choice === 'scissors' && (computerChoice === 'paper' || computerChoice === 'lizard')) ||
-      (choice === 'lizard' && (computerChoice === 'paper' || computerChoice === 'spock')) ||
-      (choice === 'spock' && (computerChoice === 'scissors' || computerChoice === 'rock'))) {
-    // prompt("You win!");
+  if (playerIsRoundWinner(choice, computerChoice)) {
+    prompt("You win!");
     win('player');
+    keepingScore(playerWins, computerWins)
   } else if (choice === computerChoice) {
     prompt("It's a tie");
   } else {
-    // prompt("Computer win");
-    win('computer');
+    prompt("Computer wins");
+    win('computer')
+    keepingScore(playerWins, computerWins)
   }
   checkForGrandWinner();
 }
 
 function win(winner) {
-  if (winner === 'computer') {
-    computerWins++;
-  } else {
+  if (winner === 'player') {
     playerWins++;
+  } else if(winner === 'computer') {
+    computerWins++;
   }
 }
 
 function checkForGrandWinner() {
   if (computerWins === 3) {
-    prompt("Computer wins");
+    prompt("Computer has won the game!");
     isWinner = true;
   } else if (playerWins === 3) {
-    prompt("Player wins");
+    prompt("Player has won the game!");
     isWinner = true;
   }
 }
 
+function playAgin(answer) {
+  answer = answer.trim();
+  let tryAllowed = 1;
+  while(true) {
+    if(['y'].includes(answer[0].toLowerCase())) {
+      return true
+    } else if(['n'].includes(answer[0].toLowerCase())) {
+      return false
+    } else if(!['n', 'y'].includes(answer)) {
+      prompt('Please choose Y for yes or N for no ')
+      answer = readline.question().trim().toLowerCase()
+      tryAllowed ++;
+      if(!['n', 'y'].includes(answer) && tryAllowed === 3) {
+        return false;
+      }
+    }
+  }
+} 
+
 while (true) {
 
-  const CHAR_CHOICES = VALID_CHOICES.map(item => {
-    if (item === 'spock') {
-      return `${item[0]}${item[1]} for ${item}`;
-    } else {
-      return `${item[0]} for ${item}`;
-    }
-  });
-
-  prompt(`Choose: ${CHAR_CHOICES.join(', ')}`);
-  let choice = readline.question().toLocaleLowerCase();
+  prompt(`Choose one: ${charsToChooseFrom(VALID_CHOICES)}`);
+  let choice = readline.question().trim().toLowerCase();
 
   while (!['r', 'rock', 'p', 'paper', 's', 'scissors', 'sp', 'spock', 'l', 'lizard'].includes(choice)) {
     prompt("That's not a valid choice");
-    choice = readline.question().toLocaleLowerCase;
+    choice = readline.question().trim().toLowerCase()
   }
 
   let randomIndex = Math.floor(Math.random() * (VALID_CHOICES.length));
@@ -87,6 +121,18 @@ while (true) {
   displayWinner(choice, computerChoice);
 
   if (isWinner) {
-    break;
+    prompt('Do you want to play again?')
+    let answer = readline.question().trim().toLowerCase()
+    if(playAgin(answer)){
+      computerWins = 0;
+      playerWins = 0;
+      isWinner = false;
+      console.clear();
+      continue;
+    } else {
+      prompt('I had fun. Thank you for playing')
+      break;
+    }
   }
+
 }
