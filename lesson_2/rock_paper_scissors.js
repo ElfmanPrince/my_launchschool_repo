@@ -17,9 +17,9 @@ function keepingScore(playerWins, computerWins) {
 
 function charsToChooseFrom(arr, delimiter = ', ', word = 'or ') {
   return arr.slice(0, arr.length - 1).map(function (word, index, arr) {
-    if (arr[index] === 'spock') return 'sp for spock';
+    if (arr[index] === 'spock') return 'S for spock';
     return `${word[0]} for ${arr[index]}`;
-  }).join(delimiter) + `${delimiter}${word}${arr[arr.length - 1][0]} for ${arr.slice(-1)}`;
+  }).join(delimiter) + `${delimiter}${word}${arr[arr.length - 1][0]} for ${arr.slice(-1)[0]}`;
 }
 
 function playerIsRoundWinner(choice, computerChoice) {
@@ -89,19 +89,19 @@ function playAgain(answer) {
 
 while (true) {
 
-  prompt(`Choose one: ${charsToChooseFrom(VALID_CHOICES)}`);
-  let choice = readline.question()[0].trim().toLowerCase();
+  prompt(`Choose one (Case-sensitivity): ${charsToChooseFrom(VALID_CHOICES)}`);
+  let choice = readline.question()[0].trim();
 
-  while (!['r', 'rock', 'p', 'paper', 's', 'scissors', 'sp', 'spock', 'l', 'lizard'].includes(choice)) {
+  while (!['r', 'rock', 'p', 'paper', 's', 'scissors', 'S', 'spock', 'l', 'lizard'].includes(choice)) {
     prompt("That's not a valid choice");
-    choice = readline.question()[0].trim().toLowerCase();
+    choice = readline.question()[0].trim();
   }
 
   const WORDCHOICES = {
     r: 'rock',
     p: 'paper',
     s: 'scissors',
-    sp: 'spock',
+    S: 'spock',
     l: 'lizard'
   };
 
