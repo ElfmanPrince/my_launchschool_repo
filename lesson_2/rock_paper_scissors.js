@@ -90,33 +90,25 @@ function playAgain(answer) {
 while (true) {
 
   prompt(`Choose one: ${charsToChooseFrom(VALID_CHOICES)}`);
-  let choice = readline.question().trim().toLowerCase();
+  let choice = readline.question()[0].trim().toLowerCase();
 
   while (!['r', 'rock', 'p', 'paper', 's', 'scissors', 'sp', 'spock', 'l', 'lizard'].includes(choice)) {
     prompt("That's not a valid choice");
-    choice = readline.question().trim().toLowerCase();
+    choice = readline.question()[0].trim().toLowerCase();
   }
+
+  const WORDCHOICES = {
+    r: 'rock',
+    p: 'paper',
+    s: 'scissors',
+    sp: 'spock',
+    l: 'lizard'
+  };
+
+  choice = WORDCHOICES[choice];
 
   let randomIndex = Math.floor(Math.random() * (VALID_CHOICES.length));
   let computerChoice = VALID_CHOICES[randomIndex];
-
-  switch (choice) {
-    case 'r':
-      choice = 'rock';
-      break;
-    case 'p':
-      choice = 'paper';
-      break;
-    case 's':
-      choice = 'scissors';
-      break;
-    case 'sp':
-      choice = 'spock';
-      break;
-    case 'l':
-      choice = 'lizard';
-      break;
-  }
 
   displayWinner(choice, computerChoice);
 
