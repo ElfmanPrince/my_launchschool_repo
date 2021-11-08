@@ -130,7 +130,7 @@ while (true) {
       console.clear();
       continue;
     } else {
-      prompt('I had fun. Thank you for playing');
+      prompt('I hope you had fun. Thank you for playing');
       break;
     }
   }
