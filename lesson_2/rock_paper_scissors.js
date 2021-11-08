@@ -88,7 +88,7 @@ function playAgain(answer) {
 }
 
 while (true) {
-  prompt('Welcome to the game')
+  prompt('Welcome to the game');
   prompt(`Please, choose one of the following: 
   ${charsToChooseFrom(VALID_CHOICES)}
   `);
@@ -107,12 +107,12 @@ while (true) {
     l: 'lizard'
   };
 
-  if(['rock', 'paper', 'scissors', 'spock', 'lizard'].includes(choice)) {
+  if (['rock', 'paper', 'scissors', 'spock', 'lizard'].includes(choice)) {
     choice = choice.toLowerCase();
   } else {
     choice = WORDCHOICES[choice];
   }
- 
+
 
   let randomIndex = Math.floor(Math.random() * (VALID_CHOICES.length));
   let computerChoice = VALID_CHOICES[randomIndex];
