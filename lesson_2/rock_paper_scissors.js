@@ -88,7 +88,9 @@ function playAgain(answer) {
 }
 
 while (true) {
-  prompt('Welcome to the game!');
+  if (playerWins === 0 && computerWins === 0) {
+    prompt('Welcome to the game!');
+  }
   prompt(`Please, choose one of the following: 
   ${charsToChooseFrom(VALID_CHOICES)}`);
   let choice = readline.question().trim().toLowerCase();
