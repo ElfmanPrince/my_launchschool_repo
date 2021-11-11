@@ -108,11 +108,11 @@ prompt('Welcome to the game!');
 while (true) {
   prompt(`Please, choose one of the following: 
   ${charsToChooseFrom(CHOICE_VALUES)}`);
-  let choice = readline.question().trim().toLowerCase();
+  let choice = readline.question().toLowerCase();
 
   while (!CHOICE_ENTRIES.includes(choice)) {
     prompt("That's not a valid choice");
-    choice = readline.question().trim().toLowerCase();
+    choice = readline.question().toLowerCase();
   }
 
   CHOICE_VALUES.includes(choice) ? choice : choice = WORD_CHOICES[choice];
